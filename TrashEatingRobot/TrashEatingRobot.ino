@@ -65,9 +65,11 @@ ServoSeqType ServoSequence[] = {
 /*------------------------------------------------------------------------------------------------*/
 void setup() {
 
-  // Set up the interrupt that will refresh the servo for us automagically
-  OCR0A = 0xAF;            // any number is OK
-  TIMSK |= _BV(OCIE0A);    // Turn on the compare interrupt (below!)
+  // Timer 1
+  noInterrupts();           // Alle Interrupts temporär abschalten
+  OCR1A = 160; // compare match value 
+  TIMSK |= (1 << OCIE1A); // enable compare match interrupt
+  interrupts();             // alle Interrupts scharf schalten
   
   armServo.attach(ARM_SERVO_PIN);
   armServo.write(90);
@@ -129,9 +131,12 @@ void blinkAliveLED() {
   }
 }
 
+/*------------------------------------------------------------------------------------------------*/
+/*!
+* \brief     Fress Sequenz
+*/
+/*------------------------------------------------------------------------------------------------*/
 void action() {
-
-
   //eating
   delay(1000);
   armServo.attach(ARM_SERVO_PIN);
@@ -147,16 +152,23 @@ void action() {
   armServo.detach();
 }
 
-// We'll take advantage of the built in millis() timer that goes off
-// to keep track of time, and refresh the servo every 20 milliseconds
+/*------------------------------------------------------------------------------------------------*/
+/*!
+* \brief     Timer1 Compare ISR
+*
+*            Hier kommt die selbstdefinierte Interruptbehandlungsroutine 
+*            für den Timer Compare Interrupt
+*/
+/*------------------------------------------------------------------------------------------------*/
 volatile uint8_t counter = 0;
-SIGNAL(TIMER0_COMPA_vect) {
+SIGNAL(TIMER1_COMPA_vect) {
+
   // this gets called every 2 milliseconds
   counter += 1;
   // every 20 milliseconds, refresh the servos!
   if (counter >= 20) {
     counter = 0;
     armServo.refresh();
-    
   }
+ 
 }
