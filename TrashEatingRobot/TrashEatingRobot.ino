@@ -15,7 +15,7 @@
 * \defgroup ROBOT     Hungriger Roboter 
 ****************************************************************************************************
 */
-#include <Adafruit_SoftServo.h>  // SoftwareServo (works on non PWM pins)
+#include "SoftServo.h"  // SoftwareServo (works on non PWM pins)
 
 /*------------------------------------------------------------------------------------------------*/
 /*!
@@ -34,7 +34,7 @@
 /*------------------------------------------------------------------------------------------------*/
 Adafruit_SoftServo armServo;
 int letzterAugenSensorWert = 0;
-const int AUGEN_THRESHOLD = 360;
+const int AUGEN_THRESHOLD = 450;
 
 typedef struct ServoSeqType {
   int Pos;
@@ -66,7 +66,7 @@ ServoSeqType ServoSequence[] = {
 void setup() {
 
   // Timer 1
-  noInterrupts();           // Alle Interrupts temporär abschalten
+  noInterrupts();           // Alle Interrupts temporï¿½r abschalten
   OCR1A = 160; // compare match value 
   TIMSK |= (1 << OCIE1A); // enable compare match interrupt
   interrupts();             // alle Interrupts scharf schalten
@@ -157,7 +157,7 @@ void action() {
 * \brief     Timer1 Compare ISR
 *
 *            Hier kommt die selbstdefinierte Interruptbehandlungsroutine 
-*            für den Timer Compare Interrupt
+*            fï¿½r den Timer Compare Interrupt
 */
 /*------------------------------------------------------------------------------------------------*/
 volatile uint8_t counter = 0;
