@@ -41,8 +41,8 @@ typedef struct ServoSeqType {
   int Delay;
 } ServoSeqType;
 ServoSeqType ServoSequence[] = {
-  { 10, 300},
-  { 70, 600},
+  { 10, 300}, /* Schaufel nach oben zum Mund... */
+  { 70, 600}, /* vor dem Bauch zittern ....     */
   { 50, 250},
   { 70, 250},
   { 50, 250},
@@ -50,7 +50,7 @@ ServoSeqType ServoSequence[] = {
   { 50, 250},
   { 70, 250},
   { 50, 250},
-  { 90, 250},
+  { 90, 250}, /* und wieder in Wartestellung gehen! */
   {  0,   0}    
 };
 
